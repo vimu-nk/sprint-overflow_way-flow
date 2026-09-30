@@ -1,0 +1,40 @@
+{
+  "name": "way-flow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.8.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "bootstrap": "node -e \"require('fs').existsSync('.env')||require('fs').copyFileSync('.env.example','.env')\"",
+    "dev": "pnpm infra:up && turbo run dev",
+    "kill": "kill-port 5173 3000 8000 4983",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write .",
+    "infra:up": "docker compose up -d --wait postgres valkey rustfs && docker compose run --rm storage-init",
+    "infra:down": "docker compose down",
+    "infra:reset": "docker compose down -v",
+    "infra:logs": "docker compose logs -f postgres valkey rustfs",
+    "stack": "docker compose up --build -d",
+    "db:studio": "pnpm --filter @wayflow/api db:studio",
+    "db:generate": "pnpm --filter @wayflow/api db:generate",
+    "db:migrate": "pnpm --filter @wayflow/api db:migrate",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "husky": "^9.1.7",
+    "kill-port": "^2.0.1",
+    "prettier": "^3.9.9",
+    "turbo": "^2.11.5",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.71.0"
+  }
+}

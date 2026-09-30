@@ -1,0 +1,9 @@
+{
+  "name": "@wayflow/planner",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "uv run python -u -m uvicorn app.main:app --reload --port 8000",
+    "lint": "uv run ruff check . && uv run ruff format --check ."
+  }
+}

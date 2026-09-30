@@ -1,0 +1,16 @@
+[project]
+name = "wayflow-planner"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "ortools",
+]
+
+[dependency-groups]
+dev = ["ruff", "pytest", "httpx"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

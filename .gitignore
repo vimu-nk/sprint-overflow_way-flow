@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+.env
+.env.local
+
+# Python
+.venv/
+__pycache__/
+.ruff_cache/
+.pytest_cache/
+
+# Competition datasets: T&C forbid redistribution (see data/README.md)
+data/**/*.csv
+data/**/*.zip
+data/**/*.py
