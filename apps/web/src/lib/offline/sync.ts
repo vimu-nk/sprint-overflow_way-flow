@@ -105,8 +105,21 @@ function schedule() {
   timer = setTimeout(() => void flush(), delay);
 }
 
+let again = false;
+
+/** Drain the outbox. A call during a running flush schedules one more pass, so nothing waits for the timer. */
 export function flush(announce = false): Promise<void> {
-  running ??= doFlush(announce).finally(() => (running = null));
+  if (running) {
+    again = true;
+    return running;
+  }
+  running = doFlush(announce).finally(() => {
+    running = null;
+    if (again) {
+      again = false;
+      void flush();
+    }
+  });
   return running;
 }
 

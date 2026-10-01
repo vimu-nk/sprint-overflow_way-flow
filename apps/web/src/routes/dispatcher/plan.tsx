@@ -44,18 +44,30 @@ function PlanBoard() {
     },
     onError: (e) => notify.fail(e, 'The allocation did not run'),
   });
+  // Publish every depot plan that has unpublished changes, one after the other. A plan that needs
+  // a second-deferral acknowledgement is held back and the dispatcher is asked to confirm.
   const publish = useMutation({
-    mutationFn: (v: { planId: string; ack: boolean }) => post<{ version: number; changes: number }>(`/dispatcher/plans/${v.planId}/publish`, { acknowledgeSecondDeferrals: v.ack }),
+    mutationFn: async (v: { planIds: string[]; ack: boolean }) => {
+      let published = 0;
+      let needsAck: { planId: string; message: string } | null = null;
+      for (const planId of v.planIds) {
+        try {
+          await post(`/dispatcher/plans/${planId}/publish`, { acknowledgeSecondDeferrals: v.ack });
+          published++;
+        } catch (e) {
+          if (e instanceof ApiError && e.code === 'second_deferral_ack_required') needsAck = { planId, message: e.message };
+          else throw e;
+        }
+      }
+      return { published, needsAck };
+    },
     meta: { topLoader: true },
     onSuccess: (r) => {
-      setAckFor(null);
-      notify.success(r.version === 1 ? 'Plan published' : `Plan republished (version ${r.version})`, 'Loader, drivers and stores have been told.', { label: 'View live tracking', onClick: () => window.location.assign('/dispatcher') });
+      setAckFor(r.needsAck);
+      if (r.published) notify.success('Plan published', 'Loader, drivers and stores have been told.', { label: 'View live tracking', onClick: () => window.location.assign('/dispatcher') });
       refresh();
     },
-    onError: (e, v) => {
-      if (e instanceof ApiError && e.code === 'second_deferral_ack_required') setAckFor({ planId: v.planId, message: e.message });
-      else notify.fail(e, 'The plan was not published');
-    },
+    onError: (e) => notify.fail(e, 'The plan was not published'),
   });
 
   const depots = board.data?.depots ?? [];
@@ -85,7 +97,7 @@ function PlanBoard() {
         }
         action={
           publishable.length ? (
-            <Button size="lg" loading={publish.isPending} onClick={() => publishable.forEach((d) => publish.mutate({ planId: d.planId!, ack: false }))}>
+            <Button size="lg" loading={publish.isPending} onClick={() => publish.mutate({ planIds: publishable.map((d) => d.planId!), ack: false })}>
               {anyPublished ? 'Republish plan' : 'Publish plan'}
             </Button>
           ) : undefined
@@ -139,7 +151,7 @@ function PlanBoard() {
           <Button variant="secondary" onClick={() => setAckFor(null)}>
             Review deferrals
           </Button>
-          <Button loading={publish.isPending} onClick={() => ackFor && publish.mutate({ planId: ackFor.planId, ack: true })}>
+          <Button loading={publish.isPending} onClick={() => ackFor && publish.mutate({ planIds: [ackFor.planId], ack: true })}>
             Acknowledge and publish
           </Button>
         </div>
