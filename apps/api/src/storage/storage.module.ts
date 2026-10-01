@@ -15,8 +15,9 @@ export const BUCKET = env.S3_BUCKET;
         new S3Client({
           endpoint: env.S3_ENDPOINT || undefined,
           region: env.S3_REGION,
-          forcePathStyle: true,
-          credentials: { accessKeyId: env.S3_ACCESS_KEY, secretAccessKey: env.S3_SECRET_KEY },
+          forcePathStyle: !!env.S3_ENDPOINT, // RustFS/MinIO need path-style; AWS does not
+          // No access key configured (AWS) → the SDK uses the instance/task IAM role.
+          credentials: env.S3_ACCESS_KEY ? { accessKeyId: env.S3_ACCESS_KEY, secretAccessKey: env.S3_SECRET_KEY } : undefined,
         }),
     },
   ],
