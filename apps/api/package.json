@@ -11,7 +11,11 @@
     "lint": "eslint src",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx src/seed/run.ts",
+    "db:reset-demo": "tsx src/seed/run.ts --reset",
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1143.0",
@@ -44,5 +48,10 @@
     "drizzle-kit": "^0.31.11",
     "tsx": "^4.23.15",
     "vitest": "^5.0.2"
-  }
+  },
+  "files": [
+    "dist",
+    "drizzle",
+    "assets"
+  ]
 }
