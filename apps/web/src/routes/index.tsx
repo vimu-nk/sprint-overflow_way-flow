@@ -50,7 +50,7 @@ function Login() {
   return (
     <div className="flex min-h-dvh flex-col bg-canvas lg:flex-row">
       {/* Hero panel: the Figma green panel, replaced by the truck video with a shaded text side. */}
-      <section className="relative isolate flex min-h-[340px] flex-col justify-between overflow-hidden px-5 py-6 text-white sm:px-10 sm:py-8 lg:min-h-dvh lg:w-[39%] lg:shrink-0 lg:px-12 lg:py-12">
+      <section className="relative isolate flex min-h-[340px] flex-col justify-between overflow-hidden px-5 py-6 text-white sm:px-10 sm:py-8 lg:min-h-dvh lg:w-1/2 lg:shrink-0 lg:px-14 lg:py-12 xl:w-[54%]">
         <HeroVideo className="absolute inset-0 -z-20" />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,.55)_0%,rgba(0,0,0,.35)_40%,rgba(0,0,0,.75)_100%)] lg:bg-[linear-gradient(90deg,rgba(9,28,21,.82)_0%,rgba(9,28,21,.6)_60%,rgba(9,28,21,.35)_100%)]" />
         <div className="flex items-center gap-3">
