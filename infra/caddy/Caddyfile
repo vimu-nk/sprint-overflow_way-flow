@@ -1,0 +1,8 @@
+# HTTPS front door for a deployed demo (automatic Let's Encrypt). Set DOMAIN in .env.
+{$DOMAIN} {
+	encode gzip
+	header Strict-Transport-Security "max-age=31536000"
+	reverse_proxy gateway:8080 {
+		flush_interval -1 # stream server-sent events
+	}
+}

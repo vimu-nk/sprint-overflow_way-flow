@@ -1,0 +1,42 @@
+# Deployment override (specs/15 fast path): docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Requires a .env with production values: NODE_ENV=production, DOMAIN, strong unique secrets,
+# COOKIE_SECURE=true, CORS_ORIGINS=https://<DOMAIN>. The API refuses to start on example values.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+    depends_on: [gateway]
+
+  gateway:
+    ports: !reset [] # only Caddy is public
+
+  api:
+    environment:
+      NODE_ENV: production
+      COOKIE_SECURE: 'true'
+      TRUST_PROXY_HOPS: '2' # Caddy → gateway → api
+      ENABLE_DEMO_TOOLS: ${ENABLE_DEMO_TOOLS:-false}
+
+  migrate:
+    environment:
+      NODE_ENV: production
+      COOKIE_SECURE: 'true'
+
+  # No database, cache or object-store ports on the host in production (SEC-61).
+  postgres:
+    ports: !reset []
+  valkey:
+    ports: !reset []
+  rustfs:
+    ports: !reset []
+
+volumes:
+  caddydata:
