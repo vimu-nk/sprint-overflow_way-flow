@@ -10,33 +10,385 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DispatcherRouteRouteImport } from './routes/dispatcher/route'
+import { Route as DriverRouteRouteImport } from './routes/driver/route'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoaderRouteRouteImport } from './routes/loader/route'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as StoreRouteRouteImport } from './routes/store/route'
+import { Route as DispatcherIndexRouteImport } from './routes/dispatcher/index'
+import { Route as DispatcherDeferralsRouteImport } from './routes/dispatcher/deferrals'
+import { Route as DispatcherFleetRouteImport } from './routes/dispatcher/fleet'
+import { Route as DispatcherOutlookRouteImport } from './routes/dispatcher/outlook'
+import { Route as DispatcherPlanRouteImport } from './routes/dispatcher/plan'
+import { Route as DispatcherQueueRouteImport } from './routes/dispatcher/queue'
+import { Route as DriverIndexRouteImport } from './routes/driver/index'
+import { Route as DriverReportRouteImport } from './routes/driver/report'
+import { Route as DriverSyncRouteImport } from './routes/driver/sync'
+import { Route as LoaderIndexRouteImport } from './routes/loader/index'
+import { Route as StoreIndexRouteImport } from './routes/store/index'
+import { Route as StoreDeliveriesRouteImport } from './routes/store/deliveries'
+import { Route as StoreReceiptRouteImport } from './routes/store/receipt'
+import { Route as DispatcherExceptionsIndexRouteImport } from './routes/dispatcher/exceptions.index'
+import { Route as DispatcherExceptionsIdRouteImport } from './routes/dispatcher/exceptions.$id'
+import { Route as DispatcherOutletsOutletIdRouteImport } from './routes/dispatcher/outlets.$outletId'
+import { Route as DispatcherPolicyPlanIdRouteImport } from './routes/dispatcher/policy.$planId'
+import { Route as DispatcherTripsTripIdRouteImport } from './routes/dispatcher/trips.$tripId'
+import { Route as DriverRecordStopIdRouteImport } from './routes/driver/record.$stopId'
+import { Route as DriverStopsStopIdRouteImport } from './routes/driver/stops.$stopId'
+import { Route as LoaderTripsTripIdRouteImport } from './routes/loader/trips.$tripId'
+import { Route as StoreOrdersOrderIdRouteImport } from './routes/store/orders.$orderId'
+import { Route as LoaderFlagTripIdStopIdRouteImport } from './routes/loader/flag.$tripId.$stopId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DispatcherRouteRoute = DispatcherRouteRouteImport.update({
+  id: '/dispatcher',
+  path: '/dispatcher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DriverRouteRoute = DriverRouteRouteImport.update({
+  id: '/driver',
+  path: '/driver',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoaderRouteRoute = LoaderRouteRouteImport.update({
+  id: '/loader',
+  path: '/loader',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRouteRoute = StoreRouteRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DispatcherIndexRoute = DispatcherIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherDeferralsRoute = DispatcherDeferralsRouteImport.update({
+  id: '/deferrals',
+  path: '/deferrals',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherFleetRoute = DispatcherFleetRouteImport.update({
+  id: '/fleet',
+  path: '/fleet',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherOutlookRoute = DispatcherOutlookRouteImport.update({
+  id: '/outlook',
+  path: '/outlook',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherPlanRoute = DispatcherPlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherQueueRoute = DispatcherQueueRouteImport.update({
+  id: '/queue',
+  path: '/queue',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DriverIndexRoute = DriverIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DriverRouteRoute,
+} as any)
+const DriverReportRoute = DriverReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => DriverRouteRoute,
+} as any)
+const DriverSyncRoute = DriverSyncRouteImport.update({
+  id: '/sync',
+  path: '/sync',
+  getParentRoute: () => DriverRouteRoute,
+} as any)
+const LoaderIndexRoute = LoaderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LoaderRouteRoute,
+} as any)
+const StoreIndexRoute = StoreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreDeliveriesRoute = StoreDeliveriesRouteImport.update({
+  id: '/deliveries',
+  path: '/deliveries',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const StoreReceiptRoute = StoreReceiptRouteImport.update({
+  id: '/receipt',
+  path: '/receipt',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const DispatcherExceptionsIndexRoute =
+  DispatcherExceptionsIndexRouteImport.update({
+    id: '/exceptions/',
+    path: '/exceptions/',
+    getParentRoute: () => DispatcherRouteRoute,
+  } as any)
+const DispatcherExceptionsIdRoute = DispatcherExceptionsIdRouteImport.update({
+  id: '/exceptions/$id',
+  path: '/exceptions/$id',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherOutletsOutletIdRoute =
+  DispatcherOutletsOutletIdRouteImport.update({
+    id: '/outlets/$outletId',
+    path: '/outlets/$outletId',
+    getParentRoute: () => DispatcherRouteRoute,
+  } as any)
+const DispatcherPolicyPlanIdRoute = DispatcherPolicyPlanIdRouteImport.update({
+  id: '/policy/$planId',
+  path: '/policy/$planId',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DispatcherTripsTripIdRoute = DispatcherTripsTripIdRouteImport.update({
+  id: '/trips/$tripId',
+  path: '/trips/$tripId',
+  getParentRoute: () => DispatcherRouteRoute,
+} as any)
+const DriverRecordStopIdRoute = DriverRecordStopIdRouteImport.update({
+  id: '/record/$stopId',
+  path: '/record/$stopId',
+  getParentRoute: () => DriverRouteRoute,
+} as any)
+const DriverStopsStopIdRoute = DriverStopsStopIdRouteImport.update({
+  id: '/stops/$stopId',
+  path: '/stops/$stopId',
+  getParentRoute: () => DriverRouteRoute,
+} as any)
+const LoaderTripsTripIdRoute = LoaderTripsTripIdRouteImport.update({
+  id: '/trips/$tripId',
+  path: '/trips/$tripId',
+  getParentRoute: () => LoaderRouteRoute,
+} as any)
+const StoreOrdersOrderIdRoute = StoreOrdersOrderIdRouteImport.update({
+  id: '/orders/$orderId',
+  path: '/orders/$orderId',
+  getParentRoute: () => StoreRouteRoute,
+} as any)
+const LoaderFlagTripIdStopIdRoute = LoaderFlagTripIdStopIdRouteImport.update({
+  id: '/flag/$tripId/$stopId',
+  path: '/flag/$tripId/$stopId',
+  getParentRoute: () => LoaderRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dispatcher': typeof DispatcherRouteRouteWithChildren
+  '/driver': typeof DriverRouteRouteWithChildren
+  '/loader': typeof LoaderRouteRouteWithChildren
+  '/store': typeof StoreRouteRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/profile': typeof ProfileRoute
+  '/dispatcher/deferrals': typeof DispatcherDeferralsRoute
+  '/dispatcher/fleet': typeof DispatcherFleetRoute
+  '/dispatcher/outlook': typeof DispatcherOutlookRoute
+  '/dispatcher/plan': typeof DispatcherPlanRoute
+  '/dispatcher/queue': typeof DispatcherQueueRoute
+  '/driver/report': typeof DriverReportRoute
+  '/driver/sync': typeof DriverSyncRoute
+  '/store/deliveries': typeof StoreDeliveriesRoute
+  '/store/receipt': typeof StoreReceiptRoute
+  '/dispatcher/': typeof DispatcherIndexRoute
+  '/driver/': typeof DriverIndexRoute
+  '/loader/': typeof LoaderIndexRoute
+  '/store/': typeof StoreIndexRoute
+  '/dispatcher/exceptions/$id': typeof DispatcherExceptionsIdRoute
+  '/dispatcher/outlets/$outletId': typeof DispatcherOutletsOutletIdRoute
+  '/dispatcher/policy/$planId': typeof DispatcherPolicyPlanIdRoute
+  '/dispatcher/trips/$tripId': typeof DispatcherTripsTripIdRoute
+  '/driver/record/$stopId': typeof DriverRecordStopIdRoute
+  '/driver/stops/$stopId': typeof DriverStopsStopIdRoute
+  '/loader/trips/$tripId': typeof LoaderTripsTripIdRoute
+  '/store/orders/$orderId': typeof StoreOrdersOrderIdRoute
+  '/dispatcher/exceptions/': typeof DispatcherExceptionsIndexRoute
+  '/loader/flag/$tripId/$stopId': typeof LoaderFlagTripIdStopIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/profile': typeof ProfileRoute
+  '/dispatcher/deferrals': typeof DispatcherDeferralsRoute
+  '/dispatcher/fleet': typeof DispatcherFleetRoute
+  '/dispatcher/outlook': typeof DispatcherOutlookRoute
+  '/dispatcher/plan': typeof DispatcherPlanRoute
+  '/dispatcher/queue': typeof DispatcherQueueRoute
+  '/driver/report': typeof DriverReportRoute
+  '/driver/sync': typeof DriverSyncRoute
+  '/store/deliveries': typeof StoreDeliveriesRoute
+  '/store/receipt': typeof StoreReceiptRoute
+  '/dispatcher': typeof DispatcherIndexRoute
+  '/driver': typeof DriverIndexRoute
+  '/loader': typeof LoaderIndexRoute
+  '/store': typeof StoreIndexRoute
+  '/dispatcher/exceptions/$id': typeof DispatcherExceptionsIdRoute
+  '/dispatcher/outlets/$outletId': typeof DispatcherOutletsOutletIdRoute
+  '/dispatcher/policy/$planId': typeof DispatcherPolicyPlanIdRoute
+  '/dispatcher/trips/$tripId': typeof DispatcherTripsTripIdRoute
+  '/driver/record/$stopId': typeof DriverRecordStopIdRoute
+  '/driver/stops/$stopId': typeof DriverStopsStopIdRoute
+  '/loader/trips/$tripId': typeof LoaderTripsTripIdRoute
+  '/store/orders/$orderId': typeof StoreOrdersOrderIdRoute
+  '/dispatcher/exceptions': typeof DispatcherExceptionsIndexRoute
+  '/loader/flag/$tripId/$stopId': typeof LoaderFlagTripIdStopIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dispatcher': typeof DispatcherRouteRouteWithChildren
+  '/driver': typeof DriverRouteRouteWithChildren
+  '/loader': typeof LoaderRouteRouteWithChildren
+  '/store': typeof StoreRouteRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/profile': typeof ProfileRoute
+  '/dispatcher/deferrals': typeof DispatcherDeferralsRoute
+  '/dispatcher/fleet': typeof DispatcherFleetRoute
+  '/dispatcher/outlook': typeof DispatcherOutlookRoute
+  '/dispatcher/plan': typeof DispatcherPlanRoute
+  '/dispatcher/queue': typeof DispatcherQueueRoute
+  '/driver/report': typeof DriverReportRoute
+  '/driver/sync': typeof DriverSyncRoute
+  '/store/deliveries': typeof StoreDeliveriesRoute
+  '/store/receipt': typeof StoreReceiptRoute
+  '/dispatcher/': typeof DispatcherIndexRoute
+  '/driver/': typeof DriverIndexRoute
+  '/loader/': typeof LoaderIndexRoute
+  '/store/': typeof StoreIndexRoute
+  '/dispatcher/exceptions/$id': typeof DispatcherExceptionsIdRoute
+  '/dispatcher/outlets/$outletId': typeof DispatcherOutletsOutletIdRoute
+  '/dispatcher/policy/$planId': typeof DispatcherPolicyPlanIdRoute
+  '/dispatcher/trips/$tripId': typeof DispatcherTripsTripIdRoute
+  '/driver/record/$stopId': typeof DriverRecordStopIdRoute
+  '/driver/stops/$stopId': typeof DriverStopsStopIdRoute
+  '/loader/trips/$tripId': typeof LoaderTripsTripIdRoute
+  '/store/orders/$orderId': typeof StoreOrdersOrderIdRoute
+  '/dispatcher/exceptions/': typeof DispatcherExceptionsIndexRoute
+  '/loader/flag/$tripId/$stopId': typeof LoaderFlagTripIdStopIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dispatcher'
+    | '/driver'
+    | '/loader'
+    | '/store'
+    | '/forgot-password'
+    | '/profile'
+    | '/dispatcher/deferrals'
+    | '/dispatcher/fleet'
+    | '/dispatcher/outlook'
+    | '/dispatcher/plan'
+    | '/dispatcher/queue'
+    | '/driver/report'
+    | '/driver/sync'
+    | '/store/deliveries'
+    | '/store/receipt'
+    | '/dispatcher/'
+    | '/driver/'
+    | '/loader/'
+    | '/store/'
+    | '/dispatcher/exceptions/$id'
+    | '/dispatcher/outlets/$outletId'
+    | '/dispatcher/policy/$planId'
+    | '/dispatcher/trips/$tripId'
+    | '/driver/record/$stopId'
+    | '/driver/stops/$stopId'
+    | '/loader/trips/$tripId'
+    | '/store/orders/$orderId'
+    | '/dispatcher/exceptions/'
+    | '/loader/flag/$tripId/$stopId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/profile'
+    | '/dispatcher/deferrals'
+    | '/dispatcher/fleet'
+    | '/dispatcher/outlook'
+    | '/dispatcher/plan'
+    | '/dispatcher/queue'
+    | '/driver/report'
+    | '/driver/sync'
+    | '/store/deliveries'
+    | '/store/receipt'
+    | '/dispatcher'
+    | '/driver'
+    | '/loader'
+    | '/store'
+    | '/dispatcher/exceptions/$id'
+    | '/dispatcher/outlets/$outletId'
+    | '/dispatcher/policy/$planId'
+    | '/dispatcher/trips/$tripId'
+    | '/driver/record/$stopId'
+    | '/driver/stops/$stopId'
+    | '/loader/trips/$tripId'
+    | '/store/orders/$orderId'
+    | '/dispatcher/exceptions'
+    | '/loader/flag/$tripId/$stopId'
+  id:
+    | '__root__'
+    | '/'
+    | '/dispatcher'
+    | '/driver'
+    | '/loader'
+    | '/store'
+    | '/forgot-password'
+    | '/profile'
+    | '/dispatcher/deferrals'
+    | '/dispatcher/fleet'
+    | '/dispatcher/outlook'
+    | '/dispatcher/plan'
+    | '/dispatcher/queue'
+    | '/driver/report'
+    | '/driver/sync'
+    | '/store/deliveries'
+    | '/store/receipt'
+    | '/dispatcher/'
+    | '/driver/'
+    | '/loader/'
+    | '/store/'
+    | '/dispatcher/exceptions/$id'
+    | '/dispatcher/outlets/$outletId'
+    | '/dispatcher/policy/$planId'
+    | '/dispatcher/trips/$tripId'
+    | '/driver/record/$stopId'
+    | '/driver/stops/$stopId'
+    | '/loader/trips/$tripId'
+    | '/store/orders/$orderId'
+    | '/dispatcher/exceptions/'
+    | '/loader/flag/$tripId/$stopId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DispatcherRouteRoute: typeof DispatcherRouteRouteWithChildren
+  DriverRouteRoute: typeof DriverRouteRouteWithChildren
+  LoaderRouteRoute: typeof LoaderRouteRouteWithChildren
+  StoreRouteRoute: typeof StoreRouteRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  ProfileRoute: typeof ProfileRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +400,306 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dispatcher': {
+      id: '/dispatcher'
+      path: '/dispatcher'
+      fullPath: '/dispatcher'
+      preLoaderRoute: typeof DispatcherRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/driver': {
+      id: '/driver'
+      path: '/driver'
+      fullPath: '/driver'
+      preLoaderRoute: typeof DriverRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/loader': {
+      id: '/loader'
+      path: '/loader'
+      fullPath: '/loader'
+      preLoaderRoute: typeof LoaderRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dispatcher/': {
+      id: '/dispatcher/'
+      path: '/'
+      fullPath: '/dispatcher/'
+      preLoaderRoute: typeof DispatcherIndexRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/deferrals': {
+      id: '/dispatcher/deferrals'
+      path: '/deferrals'
+      fullPath: '/dispatcher/deferrals'
+      preLoaderRoute: typeof DispatcherDeferralsRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/fleet': {
+      id: '/dispatcher/fleet'
+      path: '/fleet'
+      fullPath: '/dispatcher/fleet'
+      preLoaderRoute: typeof DispatcherFleetRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/outlook': {
+      id: '/dispatcher/outlook'
+      path: '/outlook'
+      fullPath: '/dispatcher/outlook'
+      preLoaderRoute: typeof DispatcherOutlookRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/plan': {
+      id: '/dispatcher/plan'
+      path: '/plan'
+      fullPath: '/dispatcher/plan'
+      preLoaderRoute: typeof DispatcherPlanRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/queue': {
+      id: '/dispatcher/queue'
+      path: '/queue'
+      fullPath: '/dispatcher/queue'
+      preLoaderRoute: typeof DispatcherQueueRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/driver/': {
+      id: '/driver/'
+      path: '/'
+      fullPath: '/driver/'
+      preLoaderRoute: typeof DriverIndexRouteImport
+      parentRoute: typeof DriverRouteRoute
+    }
+    '/driver/report': {
+      id: '/driver/report'
+      path: '/report'
+      fullPath: '/driver/report'
+      preLoaderRoute: typeof DriverReportRouteImport
+      parentRoute: typeof DriverRouteRoute
+    }
+    '/driver/sync': {
+      id: '/driver/sync'
+      path: '/sync'
+      fullPath: '/driver/sync'
+      preLoaderRoute: typeof DriverSyncRouteImport
+      parentRoute: typeof DriverRouteRoute
+    }
+    '/loader/': {
+      id: '/loader/'
+      path: '/'
+      fullPath: '/loader/'
+      preLoaderRoute: typeof LoaderIndexRouteImport
+      parentRoute: typeof LoaderRouteRoute
+    }
+    '/store/': {
+      id: '/store/'
+      path: '/'
+      fullPath: '/store/'
+      preLoaderRoute: typeof StoreIndexRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/deliveries': {
+      id: '/store/deliveries'
+      path: '/deliveries'
+      fullPath: '/store/deliveries'
+      preLoaderRoute: typeof StoreDeliveriesRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/store/receipt': {
+      id: '/store/receipt'
+      path: '/receipt'
+      fullPath: '/store/receipt'
+      preLoaderRoute: typeof StoreReceiptRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/dispatcher/exceptions/': {
+      id: '/dispatcher/exceptions/'
+      path: '/exceptions'
+      fullPath: '/dispatcher/exceptions/'
+      preLoaderRoute: typeof DispatcherExceptionsIndexRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/exceptions/$id': {
+      id: '/dispatcher/exceptions/$id'
+      path: '/exceptions/$id'
+      fullPath: '/dispatcher/exceptions/$id'
+      preLoaderRoute: typeof DispatcherExceptionsIdRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/outlets/$outletId': {
+      id: '/dispatcher/outlets/$outletId'
+      path: '/outlets/$outletId'
+      fullPath: '/dispatcher/outlets/$outletId'
+      preLoaderRoute: typeof DispatcherOutletsOutletIdRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/policy/$planId': {
+      id: '/dispatcher/policy/$planId'
+      path: '/policy/$planId'
+      fullPath: '/dispatcher/policy/$planId'
+      preLoaderRoute: typeof DispatcherPolicyPlanIdRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/dispatcher/trips/$tripId': {
+      id: '/dispatcher/trips/$tripId'
+      path: '/trips/$tripId'
+      fullPath: '/dispatcher/trips/$tripId'
+      preLoaderRoute: typeof DispatcherTripsTripIdRouteImport
+      parentRoute: typeof DispatcherRouteRoute
+    }
+    '/driver/record/$stopId': {
+      id: '/driver/record/$stopId'
+      path: '/record/$stopId'
+      fullPath: '/driver/record/$stopId'
+      preLoaderRoute: typeof DriverRecordStopIdRouteImport
+      parentRoute: typeof DriverRouteRoute
+    }
+    '/driver/stops/$stopId': {
+      id: '/driver/stops/$stopId'
+      path: '/stops/$stopId'
+      fullPath: '/driver/stops/$stopId'
+      preLoaderRoute: typeof DriverStopsStopIdRouteImport
+      parentRoute: typeof DriverRouteRoute
+    }
+    '/loader/trips/$tripId': {
+      id: '/loader/trips/$tripId'
+      path: '/trips/$tripId'
+      fullPath: '/loader/trips/$tripId'
+      preLoaderRoute: typeof LoaderTripsTripIdRouteImport
+      parentRoute: typeof LoaderRouteRoute
+    }
+    '/store/orders/$orderId': {
+      id: '/store/orders/$orderId'
+      path: '/orders/$orderId'
+      fullPath: '/store/orders/$orderId'
+      preLoaderRoute: typeof StoreOrdersOrderIdRouteImport
+      parentRoute: typeof StoreRouteRoute
+    }
+    '/loader/flag/$tripId/$stopId': {
+      id: '/loader/flag/$tripId/$stopId'
+      path: '/flag/$tripId/$stopId'
+      fullPath: '/loader/flag/$tripId/$stopId'
+      preLoaderRoute: typeof LoaderFlagTripIdStopIdRouteImport
+      parentRoute: typeof LoaderRouteRoute
+    }
   }
 }
 
+interface DispatcherRouteRouteChildren {
+  DispatcherDeferralsRoute: typeof DispatcherDeferralsRoute
+  DispatcherFleetRoute: typeof DispatcherFleetRoute
+  DispatcherOutlookRoute: typeof DispatcherOutlookRoute
+  DispatcherPlanRoute: typeof DispatcherPlanRoute
+  DispatcherQueueRoute: typeof DispatcherQueueRoute
+  DispatcherIndexRoute: typeof DispatcherIndexRoute
+  DispatcherExceptionsIdRoute: typeof DispatcherExceptionsIdRoute
+  DispatcherOutletsOutletIdRoute: typeof DispatcherOutletsOutletIdRoute
+  DispatcherPolicyPlanIdRoute: typeof DispatcherPolicyPlanIdRoute
+  DispatcherTripsTripIdRoute: typeof DispatcherTripsTripIdRoute
+  DispatcherExceptionsIndexRoute: typeof DispatcherExceptionsIndexRoute
+}
+
+const DispatcherRouteRouteChildren: DispatcherRouteRouteChildren = {
+  DispatcherDeferralsRoute: DispatcherDeferralsRoute,
+  DispatcherFleetRoute: DispatcherFleetRoute,
+  DispatcherOutlookRoute: DispatcherOutlookRoute,
+  DispatcherPlanRoute: DispatcherPlanRoute,
+  DispatcherQueueRoute: DispatcherQueueRoute,
+  DispatcherIndexRoute: DispatcherIndexRoute,
+  DispatcherExceptionsIdRoute: DispatcherExceptionsIdRoute,
+  DispatcherOutletsOutletIdRoute: DispatcherOutletsOutletIdRoute,
+  DispatcherPolicyPlanIdRoute: DispatcherPolicyPlanIdRoute,
+  DispatcherTripsTripIdRoute: DispatcherTripsTripIdRoute,
+  DispatcherExceptionsIndexRoute: DispatcherExceptionsIndexRoute,
+}
+
+const DispatcherRouteRouteWithChildren = DispatcherRouteRoute._addFileChildren(
+  DispatcherRouteRouteChildren,
+)
+
+interface DriverRouteRouteChildren {
+  DriverReportRoute: typeof DriverReportRoute
+  DriverSyncRoute: typeof DriverSyncRoute
+  DriverIndexRoute: typeof DriverIndexRoute
+  DriverRecordStopIdRoute: typeof DriverRecordStopIdRoute
+  DriverStopsStopIdRoute: typeof DriverStopsStopIdRoute
+}
+
+const DriverRouteRouteChildren: DriverRouteRouteChildren = {
+  DriverReportRoute: DriverReportRoute,
+  DriverSyncRoute: DriverSyncRoute,
+  DriverIndexRoute: DriverIndexRoute,
+  DriverRecordStopIdRoute: DriverRecordStopIdRoute,
+  DriverStopsStopIdRoute: DriverStopsStopIdRoute,
+}
+
+const DriverRouteRouteWithChildren = DriverRouteRoute._addFileChildren(
+  DriverRouteRouteChildren,
+)
+
+interface LoaderRouteRouteChildren {
+  LoaderIndexRoute: typeof LoaderIndexRoute
+  LoaderTripsTripIdRoute: typeof LoaderTripsTripIdRoute
+  LoaderFlagTripIdStopIdRoute: typeof LoaderFlagTripIdStopIdRoute
+}
+
+const LoaderRouteRouteChildren: LoaderRouteRouteChildren = {
+  LoaderIndexRoute: LoaderIndexRoute,
+  LoaderTripsTripIdRoute: LoaderTripsTripIdRoute,
+  LoaderFlagTripIdStopIdRoute: LoaderFlagTripIdStopIdRoute,
+}
+
+const LoaderRouteRouteWithChildren = LoaderRouteRoute._addFileChildren(
+  LoaderRouteRouteChildren,
+)
+
+interface StoreRouteRouteChildren {
+  StoreDeliveriesRoute: typeof StoreDeliveriesRoute
+  StoreReceiptRoute: typeof StoreReceiptRoute
+  StoreIndexRoute: typeof StoreIndexRoute
+  StoreOrdersOrderIdRoute: typeof StoreOrdersOrderIdRoute
+}
+
+const StoreRouteRouteChildren: StoreRouteRouteChildren = {
+  StoreDeliveriesRoute: StoreDeliveriesRoute,
+  StoreReceiptRoute: StoreReceiptRoute,
+  StoreIndexRoute: StoreIndexRoute,
+  StoreOrdersOrderIdRoute: StoreOrdersOrderIdRoute,
+}
+
+const StoreRouteRouteWithChildren = StoreRouteRoute._addFileChildren(
+  StoreRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DispatcherRouteRoute: DispatcherRouteRouteWithChildren,
+  DriverRouteRoute: DriverRouteRouteWithChildren,
+  LoaderRouteRoute: LoaderRouteRouteWithChildren,
+  StoreRouteRoute: StoreRouteRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  ProfileRoute: ProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

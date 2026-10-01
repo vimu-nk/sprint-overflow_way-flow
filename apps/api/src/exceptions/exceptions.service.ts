@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { ExceptionType, Severity } from '@wayflow/shared';
 import { and, eq, isNull, like, sql, type SQL } from 'drizzle-orm';
+import { ClockService } from '../clock/clock.service.js';
 import { DB, type Db } from '../db/drizzle.module.js';
 import { exceptions } from '../db/schema.js';
 import type { Tx } from '../planning/plan-store.js';
@@ -25,7 +26,10 @@ export interface RaiseInput {
 /** The dispatcher's exception queue (D-07): shortfalls, offline vehicles, receipt issues, … */
 @Injectable()
 export class ExceptionsService {
-  constructor(@Inject(DB) private readonly db: Db) {}
+  constructor(
+    @Inject(DB) private readonly db: Db,
+    private readonly clock: ClockService,
+  ) {}
 
   /** Creates EX-MMDD-NN. Returns the new id, or null when deduplicated. */
   async raise(input: RaiseInput, tx: Db | Tx = this.db): Promise<string | null> {
@@ -43,7 +47,8 @@ export class ExceptionsService {
       .from(exceptions)
       .where(like(exceptions.code, `${prefix}%`));
     const code = `${prefix}${String((row?.n ?? 0) + 1).padStart(2, '0')}`;
-    const now = new Date();
+    // Business times follow the simulation clock so the live board reads consistently.
+    const now = await this.clock.now();
     const [created] = await tx
       .insert(exceptions)
       .values({
@@ -58,6 +63,7 @@ export class ExceptionsService {
         title: input.title,
         body: input.body,
         raisedBy: input.raisedBy ?? null,
+        raisedAt: now,
         resolvedAt: input.resolved ? now : null,
         resolution: input.resolved ? 'No action needed' : null,
       })
@@ -70,6 +76,6 @@ export class ExceptionsService {
     if (filter.tripId) conds.push(eq(exceptions.tripId, filter.tripId));
     if (filter.vehicleId) conds.push(eq(exceptions.vehicleId, filter.vehicleId));
     if (filter.runDate) conds.push(eq(exceptions.runDate, filter.runDate));
-    await tx.update(exceptions).set({ resolvedAt: new Date(), resolution }).where(and(...conds));
+    await tx.update(exceptions).set({ resolvedAt: await this.clock.now(), resolution }).where(and(...conds));
   }
 }

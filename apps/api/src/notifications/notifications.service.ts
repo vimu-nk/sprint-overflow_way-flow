@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger, type OnModuleDestroy, type OnModuleInit } f
 import type { Depot, Role, Severity } from '@wayflow/shared';
 import { and, desc, eq, inArray, isNull, lt, or, sql, type SQL } from 'drizzle-orm';
 import type { Valkey } from 'iovalkey';
+import { ClockService } from '../clock/clock.service.js';
 import { DB, type Db } from '../db/drizzle.module.js';
 import { notifications, users } from '../db/schema.js';
 import { VALKEY } from '../valkey/valkey.module.js';
@@ -41,6 +42,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   constructor(
     @Inject(DB) private readonly db: Db,
     @Inject(VALKEY) private readonly valkey: Valkey,
+    private readonly clock: ClockService,
   ) {}
 
   async onModuleInit() {
@@ -105,6 +107,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
   async notify(input: NotifyInput): Promise<number> {
     const userIds = await this.resolve(input.to);
     if (!userIds.length) return 0;
+    const createdAt = await this.clock.now();
     const rows = await this.db
       .insert(notifications)
       .values(
@@ -115,6 +118,7 @@ export class NotificationsService implements OnModuleInit, OnModuleDestroy {
           title: input.title.slice(0, 120),
           body: input.body.slice(0, 280),
           link: input.link ?? null,
+          createdAt,
         })),
       )
       .returning();

@@ -316,7 +316,7 @@ export class ViewsService {
         tripId: t?.id ?? null,
         plannedArrival: s ? minToHhmm(s.plannedArrivalMin) : null,
         eta: e && t?.status === 'departed' && (s?.status === 'pending' || s?.status === 'arrived') ? minToHhmm(e.eta) : null,
-        lateRisk: e?.late ?? false,
+        lateRisk: e?.late ?? s?.late ?? false,
         deliveredAt: iso(s?.completedAt),
         deliveredUnits: s?.deliveredUnits ?? o.deliveredUnits,
         lastUpdateAt: t?.status === 'departed' ? iso(t.lastSignalAt ?? t.departedAt) : null,

@@ -1,1 +1,84 @@
+@import '@fontsource-variable/inter';
 @import 'tailwindcss';
+
+/* Design tokens taken from the Designathon Figma exports (design/). */
+@theme {
+  --font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #174d3a;
+  --color-brand-ink: #102a24;
+  --color-brand-tint: #e7f3ec;
+  --color-ink: #18231d;
+  --color-muted: #6b7770;
+  --color-subtle: #7b818b;
+  --color-line: #e6ebe8;
+  --color-field: #c9cdd3;
+  --color-canvas: #fafbfa;
+  --color-chip: #f4f4f5;
+  --color-link: #245ea8;
+  --color-ok: #21734a;
+  --color-ok-bright: #10b981;
+  --color-info: #245ea8;
+  --color-info-tint: #eaf1fb;
+  --color-warn: #9a5b00;
+  --color-warn-bright: #f59e0b;
+  --color-warn-tint: #fdf3e1;
+  --color-danger: #b42318;
+  --color-danger-tint: #fdecea;
+  --color-hero-scrim: rgb(0 0 0 / 0.55);
+
+  --radius-pill: 6px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    line-height: 22px;
+  }
+  a {
+    @apply text-link;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-subtle);
+  }
+  /* Visible focus for keyboard users everywhere (specs/05 §13). */
+  :focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility safe-bottom {
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+@keyframes toploader {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

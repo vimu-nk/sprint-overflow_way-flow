@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { assertTransition, ORDER_TRANSITIONS } from '@wayflow/shared';
 import { and, eq } from 'drizzle-orm';
 import { AuditService, type AuditMeta } from '../audit/audit.service.js';
+import { ClockService } from '../clock/clock.service.js';
 import type { SessionUser } from '../common/decorators.js';
 import { conflict, notFound } from '../common/errors.js';
 import { DB, type Db } from '../db/drizzle.module.js';
@@ -19,6 +20,7 @@ export class DispatcherActions {
     private readonly notifications: NotificationsService,
     private readonly store: PlanStore,
     private readonly ref: ReferenceService,
+    private readonly clock: ClockService,
   ) {}
 
   async resolveException(id: string, resolution: string, user: SessionUser, meta: AuditMeta) {
@@ -26,7 +28,7 @@ export class DispatcherActions {
     if (!ex) throw notFound('Exception not found');
     if (ex.resolvedAt) throw conflict('already_resolved', 'This exception is already resolved.');
     await this.db.transaction(async (tx) => {
-      await tx.update(exceptions).set({ resolvedAt: new Date(), resolvedBy: user.id, resolution }).where(eq(exceptions.id, id));
+      await tx.update(exceptions).set({ resolvedAt: await this.clock.now(), resolvedBy: user.id, resolution }).where(eq(exceptions.id, id));
       // A resolved receipt dispute closes the order (F6 disputed → received).
       if (ex.type === 'receipt_issue' && ex.orderId) {
         const [o] = await tx.select().from(orders).where(eq(orders.id, ex.orderId));
