@@ -293,7 +293,9 @@ export class SyncService {
 
   private async outcome(tx: Tx, user: SessionUser, a: Extract<FieldAction, { type: 'stop.outcome' }>, at: Date, after: NotifyInput[]): Promise<Applied> {
     this.requireRole(user, 'driver');
-    let { stop, trip, order } = await this.stopFor(tx, user, a.stopId);
+    const found = await this.stopFor(tx, user, a.stopId);
+    const { trip, order } = found;
+    let stop = found.stop;
     if (trip.status !== 'departed' && trip.status !== 'completed') throw new Reject('not_departed', 'Start the trip before recording deliveries.');
     if (a.outcome === 'failed' && !a.failureReason) throw new Reject('reason_required', 'Choose a reason.');
     if (a.outcome === 'partial' && (a.deliveredUnits === undefined || a.deliveredUnits >= order.units)) {

@@ -27,7 +27,7 @@ import { decisions, orders, outlets, planVersions, plans, trips, vehicleDays } f
 import { ExceptionsService } from '../exceptions/exceptions.service.js';
 import { NotificationsService } from '../notifications/notifications.service.js';
 import { ReferenceService } from '../reference/reference.service.js';
-import { enforceMallWindows, explainDeferral, greedyAllocate, type PlanOrder, repair } from './allocation.js';
+import { enforceMallWindows, explainDeferral, greedyAllocate, repair } from './allocation.js';
 import { type DecisionInput, LOCKED_TRIP, PlanStore, type PlanningState } from './plan-store.js';
 import { PlannerClient } from './planner.client.js';
 
@@ -99,7 +99,7 @@ export class PlanningService {
 
     let allocation: AllocationTrip[];
     let engine = 'or-tools-cp-sat';
-    let engineStatus = 'n/a';
+    let engineStatus: string;
     let solveMs = 0;
     const started = Date.now();
     if (!state.operating) {

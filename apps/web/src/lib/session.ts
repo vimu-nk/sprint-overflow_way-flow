@@ -43,6 +43,6 @@ export const meQuery = queryOptions({
 /** Accept only same-origin relative paths for ?next= (SEC-31). */
 export function safeNext(next: unknown): string | null {
   if (typeof next !== 'string') return null;
-  if (!/^\/(dispatcher|store|loader|driver|profile)(\/[A-Za-z0-9\-/]*)?(\?[A-Za-z0-9=&\-]*)?$/.test(next)) return null;
+  if (!/^\/(dispatcher|store|loader|driver|profile)(\/[A-Za-z0-9\-/]*)?(\?[A-Za-z0-9=&-]*)?$/.test(next)) return null;
   return next;
 }

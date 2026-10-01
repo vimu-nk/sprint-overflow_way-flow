@@ -39,7 +39,7 @@ function PlaceOrder() {
       setChilled(d.chilled);
       setAmbient(d.ambient);
     }
-  }, [outlet?.outletId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [outlet?.outletId]);
   useEffect(() => {
     if (outlet) localStorage.setItem(draftKey(outlet.outletId), JSON.stringify({ chilled, ambient }));
   }, [chilled, ambient, outlet]);

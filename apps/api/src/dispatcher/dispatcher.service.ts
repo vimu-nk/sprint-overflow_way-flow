@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   addDays,
   DEPOTS,
-  type Depot,
   type DeferralDto,
   type ExceptionDto,
   type FleetVehicleDto,

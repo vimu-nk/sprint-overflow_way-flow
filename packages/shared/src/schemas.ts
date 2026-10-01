@@ -16,6 +16,7 @@ export const safeText = (max: number) =>
     .string()
     .max(max)
     .transform((s) => s.normalize('NFC').trim())
+    // eslint-disable-next-line no-control-regex -- rejecting control characters is the point (SEC-44)
     .refine((s) => !/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(s), 'Contains control characters');
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected YYYY-MM-DD');

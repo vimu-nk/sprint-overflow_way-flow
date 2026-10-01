@@ -97,16 +97,29 @@ def solve(req: PlanRequest) -> PlanResponse:
             items = by_trip.get((vid, t), [])
             # A trip bucket is only open when it carries at least one order (no empty trips).
             for b in buckets:
-                members = [var for ref, var in items if (order_by_ref[ref].brand, order_by_ref[ref].district) == b]
+                members = [
+                    var
+                    for ref, var in items
+                    if (order_by_ref[ref].brand, order_by_ref[ref].district) == b
+                ]
                 if members:
                     m.add(z[vid, t, b] <= sum(members))
                 else:
                     m.add(z[vid, t, b] == 0)
             # Rule 6: weight and volume.
-            m.add(sum(round(order_by_ref[r].weight_kg * KG) * var for r, var in items) <= int(v.weight_cap_kg * KG))
-            m.add(sum(round(order_by_ref[r].volume_m3 * M3) * var for r, var in items) <= int(v.volume_cap_m3 * M3))
+            m.add(
+                sum(round(order_by_ref[r].weight_kg * KG) * var for r, var in items)
+                <= int(v.weight_cap_kg * KG)
+            )
+            m.add(
+                sum(round(order_by_ref[r].volume_m3 * M3) * var for r, var in items)
+                <= int(v.volume_cap_m3 * M3)
+            )
             # Trip time: Σ_b z·(outbound − inter) + Σ_o x·(inter + service).
-            for kind, bs, acc in (("fresh", fresh_buckets, time_fresh), ("trading", trading_buckets, time_trading)):
+            for kind, bs, acc in (
+                ("fresh", fresh_buckets, time_fresh),
+                ("trading", trading_buckets, time_trading),
+            ):
                 for b in bs:
                     tr = req.travel[b[1]]
                     acc.append(round((tr.outbound_min - tr.inter_stop_min) * MIN) * z[vid, t, b])
@@ -130,7 +143,9 @@ def solve(req: PlanRequest) -> PlanResponse:
         if req.max_trips >= 2:
             m.add(sum(z[vid, 2, b] for b in buckets) <= sum(z[vid, 1, b] for b in buckets))
             # Fresh runs before the trading day: a Fresh second trip needs a Fresh first trip.
-            m.add(sum(z[vid, 2, b] for b in fresh_buckets) <= sum(z[vid, 1, b] for b in fresh_buckets))
+            m.add(
+                sum(z[vid, 2, b] for b in fresh_buckets) <= sum(z[vid, 1, b] for b in fresh_buckets)
+            )
 
     stay_bonus = []
     for ref, (vid, t) in prefs.items():
@@ -149,7 +164,13 @@ def solve(req: PlanRequest) -> PlanResponse:
     status = solver.solve(m)
     elapsed = int((time.perf_counter() - started) * 1000)
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        return PlanResponse(trips=[], unassigned=[o.ref for o in orders], status=solver.status_name(status), objective=0, solve_ms=elapsed)
+        return PlanResponse(
+            trips=[],
+            unassigned=[o.ref for o in orders],
+            status=solver.status_name(status),
+            objective=0,
+            solve_ms=elapsed,
+        )
 
     out: list[Trip] = []
     assigned: set[str] = set()
@@ -159,7 +180,15 @@ def solve(req: PlanRequest) -> PlanResponse:
             if not refs:
                 continue
             first = order_by_ref[refs[0]]
-            out.append(Trip(vehicle_id=v.vehicle_id, trip_no=t, brand=first.brand, district=first.district, order_refs=sorted(refs)))
+            out.append(
+                Trip(
+                    vehicle_id=v.vehicle_id,
+                    trip_no=t,
+                    brand=first.brand,
+                    district=first.district,
+                    order_refs=sorted(refs),
+                )
+            )
             assigned.update(refs)
     unassigned = [o.ref for o in orders if o.ref not in assigned]
     return PlanResponse(

@@ -14,7 +14,7 @@ export function useRoleRuntime(me: MeDto, opts: { field?: boolean; quiet?: () =>
   useEffect(() => {
     if (!navigator.onLine && opts.field) return;
     return connectLive(qc, { quiet: opts.quiet });
-  }, [qc, me.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [qc, me.id]);
   useEffect(() => (opts.field ? startSync(me.id, qc) : undefined), [qc, me.id, opts.field]);
   useEffect(
     () =>
