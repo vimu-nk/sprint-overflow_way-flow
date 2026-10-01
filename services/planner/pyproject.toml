@@ -6,6 +6,7 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     "ortools",
+    "pydantic>=2.13.5",
 ]
 
 [dependency-groups]
@@ -14,3 +15,7 @@ dev = ["ruff", "pytest", "httpx"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
