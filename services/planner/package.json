@@ -1,6 +1,6 @@
 {
   "name": "@wayflow/planner",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "uv run python -u -m uvicorn app.main:app --reload --port 8000",
