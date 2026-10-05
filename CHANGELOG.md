@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/vimu-nk/sprint-overflow_way-flow/compare/v0.2.0...v0.2.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **infra:** use listen-based http2 in host nginx config ([c1f8272](https://github.com/vimu-nk/sprint-overflow_way-flow/commit/c1f8272a992e3e5ba45d3e93c8d489127b2b04dd))
+
 ## [0.2.0](https://github.com/vimu-nk/sprint-overflow_way-flow/compare/v0.1.0...v0.2.0) (2026-10-05)
 
 
