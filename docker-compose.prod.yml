@@ -1,28 +1,17 @@
-# Deployment override (specs/15 fast path): docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-# Requires a .env with production values: NODE_ENV=production, DOMAIN, strong unique secrets,
-# COOKIE_SECURE=true, CORS_ORIGINS=https://<DOMAIN>. The API refuses to start on example values.
+# Production override for the EC2 host (host nginx + certbot terminate TLS), see docs/deployment-ec2.md.
+# Committed so the VM never needs local edits: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 services:
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
-    environment:
-      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddydata:/data
-    depends_on: [gateway]
-
+  # Loopback only: host nginx is the single public entry.
   gateway:
-    ports: !reset [] # only Caddy is public
+    ports: !override
+      - '127.0.0.1:8080:8080'
 
   api:
     environment:
+      # hops: host nginx -> gateway -> api (docs/security.md SEC-51)
       NODE_ENV: production
       COOKIE_SECURE: 'true'
-      TRUST_PROXY_HOPS: '2' # Caddy → gateway → api
+      TRUST_PROXY_HOPS: '2'
       ENABLE_DEMO_TOOLS: ${ENABLE_DEMO_TOOLS:-false}
 
   migrate:
@@ -30,13 +19,10 @@ services:
       NODE_ENV: production
       COOKIE_SECURE: 'true'
 
-  # No database, cache or object-store ports on the host in production (SEC-61).
+  # No database, cache or object-store ports on the host (SEC-61).
   postgres:
     ports: !reset []
   valkey:
     ports: !reset []
   rustfs:
     ports: !reset []
-
-volumes:
-  caddydata:

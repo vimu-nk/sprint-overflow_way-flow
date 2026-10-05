@@ -181,7 +181,7 @@ Summarised from [docs/design-departures.md](docs/design-departures.md): the sign
 
 ## 11. Deployment
 
-`docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build` on one host adds Caddy with automatic HTTPS and removes all dev ports. See [docs/deployment.md](docs/deployment.md) for the AWS fast path and the pre-release checklist.
+Production runs on one AWS EC2 host (host nginx + certbot for HTTPS, `docker-compose.prod.yml` for production settings). See [docs/deployment-ec2.md](docs/deployment-ec2.md).
 
 ## 12. AI tool disclosure
 

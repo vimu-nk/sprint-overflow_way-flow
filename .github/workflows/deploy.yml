@@ -1,0 +1,27 @@
+name: Deploy
+
+# Manual for now. To deploy every merge, add `push: branches: [main]` under `on:`.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to deploy (default origin/main)
+        default: origin/main
+
+concurrency: deploy-prod
+
+jobs:
+  ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER_NAME: ${{ secrets.EC2_USER }}
+          REF: ${{ inputs.ref || 'origin/main' }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/key && chmod 600 ~/.ssh/key
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/key "$USER_NAME@$HOST" "sh ~/way-flow/infra/deploy.sh '$REF'"

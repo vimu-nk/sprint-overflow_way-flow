@@ -11,7 +11,7 @@
 
 - **Scaffold-to-system build:** database schema and migrations, CSV loaders and demo-data generator, NestJS modules (auth, planning, dispatcher, store, field sync, notifications, attachments), the OR-Tools CP-SAT model, the shared rules package, all role screens, the offline outbox and sync engine.
 - **Tests:** unit, integration and Playwright suites; they were run and the failures they found were fixed (examples below).
-- **Infrastructure:** Dockerfiles, compose files, nginx and Caddy configuration, CI workflow.
+- **Infrastructure:** Dockerfiles, compose files, nginx configuration, CI workflow.
 - **Documentation:** README and everything in `docs/`.
 - **Media processing:** transcoding the supplied hero video into compressed desktop/mobile variants and posters (ffmpeg in Docker).
 

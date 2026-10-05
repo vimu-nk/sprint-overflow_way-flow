@@ -44,7 +44,7 @@ The browser only talks to the gateway. The planner has no route through the gate
 | `services/planner` | `app/solver.py` CP-SAT model, `app/model.py` request/response contract, pytest suite |
 | `apps/api/src` | One Nest module per area (below) |
 | `apps/web/src` | `routes/` (file routes per role), `features/` (role components), `components/` (UI primitives and shells), `lib/` (API client, live updates, offline engine) |
-| `infra/` | nginx gateway, RustFS provisioning, Caddy for deployments |
+| `infra/` | nginx gateway and host site, RustFS provisioning, deploy script |
 
 ### API modules
 
@@ -188,8 +188,8 @@ flowchart TB
     A1 --> R1[(rustfs)]
     A1 --> L1[planner]
   end
-  subgraph Host["Single host: + docker-compose.prod.yml"]
-    C2["Caddy :443<br/>Let's Encrypt, HSTS"] --> G2[gateway] --> A2[api]
+  subgraph Host["EC2 host: + docker-compose.prod.yml"]
+    C2["host nginx :443<br/>certbot, HSTS"] --> G2[gateway] --> A2[api]
     G2 --> W2[web]
     A2 --> P2[(postgres, no host port)]
     A2 --> L2[planner]
