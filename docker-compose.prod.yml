@@ -1,0 +1,28 @@
+# Production override for the EC2 host (host nginx + certbot terminate TLS), see docs/deployment-ec2.md.
+# Committed so the VM never needs local edits: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  # Loopback only: host nginx is the single public entry.
+  gateway:
+    ports: !override
+      - '127.0.0.1:8080:8080'
+
+  api:
+    environment:
+      # hops: host nginx -> gateway -> api (docs/security.md SEC-51)
+      NODE_ENV: production
+      COOKIE_SECURE: 'true'
+      TRUST_PROXY_HOPS: '2'
+      ENABLE_DEMO_TOOLS: ${ENABLE_DEMO_TOOLS:-false}
+
+  migrate:
+    environment:
+      NODE_ENV: production
+      COOKIE_SECURE: 'true'
+
+  # No database, cache or object-store ports on the host (SEC-61).
+  postgres:
+    ports: !reset []
+  valkey:
+    ports: !reset []
+  rustfs:
+    ports: !reset []

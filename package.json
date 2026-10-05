@@ -23,7 +23,11 @@
     "db:studio": "pnpm --filter @wayflow/api db:studio",
     "db:generate": "pnpm --filter @wayflow/api db:generate",
     "db:migrate": "pnpm --filter @wayflow/api db:migrate",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:seed": "pnpm --filter @wayflow/api db:seed",
+    "db:reset-demo": "pnpm --filter @wayflow/api db:reset-demo",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @wayflow/web test:e2e"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",

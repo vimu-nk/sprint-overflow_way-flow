@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -14,9 +17,40 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-      # Planner lint runs through turbo via `uv run`
+      # Planner lint and tests run through turbo via `uv run`
       - uses: astral-sh/setup-uv@v6
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
+      # Unit tests: shared business rules, API (engine helpers, auth, uploads, route table), planner.
+      - run: pnpm test
       - run: pnpm build
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # SEC-57: no secrets in git history.
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      # SEC-65: known vulnerabilities in production dependencies.
+      - run: pnpm audit --prod --audit-level high
+      # SEC-65: filesystem and IaC scan.
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: '1'
+
+# Integration (apps/api test:integration) and end-to-end (apps/web test:e2e) tests need the
+# competition CSVs to seed, which cannot be published (data/README.md), so they run locally
+# against `docker compose up`. See docs/testing.md.

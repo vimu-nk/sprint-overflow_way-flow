@@ -1,9 +1,10 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { Global, Module } from '@nestjs/common';
+import { env } from '../env.js';
 
 export const S3 = Symbol('S3');
 // Bucket and the API's scoped key are provisioned by infra/rustfs/init.sh (storage-init).
-export const BUCKET = process.env.S3_BUCKET ?? 'pod';
+export const BUCKET = env.S3_BUCKET;
 
 @Global()
 @Module({
@@ -12,13 +13,11 @@ export const BUCKET = process.env.S3_BUCKET ?? 'pod';
       provide: S3,
       useFactory: () =>
         new S3Client({
-          endpoint: process.env.S3_ENDPOINT ?? 'http://localhost:9000',
-          region: 'us-east-1',
-          forcePathStyle: true,
-          credentials: {
-            accessKeyId: process.env.S3_ACCESS_KEY ?? 'wayflow-app',
-            secretAccessKey: process.env.S3_SECRET_KEY ?? 'wayflow-app-secret',
-          },
+          endpoint: env.S3_ENDPOINT || undefined,
+          region: env.S3_REGION,
+          forcePathStyle: !!env.S3_ENDPOINT, // RustFS/MinIO need path-style; AWS does not
+          // No access key configured (AWS) → the SDK uses the instance/task IAM role.
+          credentials: env.S3_ACCESS_KEY ? { accessKeyId: env.S3_ACCESS_KEY, secretAccessKey: env.S3_SECRET_KEY } : undefined,
         }),
     },
   ],

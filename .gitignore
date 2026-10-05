@@ -15,3 +15,5 @@ __pycache__/
 data/**/*.csv
 data/**/*.zip
 data/**/*.py
+test-results/
+playwright-report/

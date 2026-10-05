@@ -768,6 +768,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "ortools" },
+    { name = "pydantic" },
     { name = "uvicorn", extra = ["standard"] },
 ]
 
@@ -782,6 +783,7 @@ dev = [
 requires-dist = [
     { name = "fastapi" },
     { name = "ortools" },
+    { name = "pydantic", specifier = ">=2.13.5" },
     { name = "uvicorn", extras = ["standard"] },
 ]
 

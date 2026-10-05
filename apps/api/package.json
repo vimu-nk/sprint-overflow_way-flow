@@ -11,26 +11,47 @@
     "lint": "eslint src",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx src/seed/run.ts",
+    "db:reset-demo": "tsx src/seed/run.ts --reset",
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1143.0",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/multipart": "^10.1.2",
     "@fastify/static": "^10.1.5",
     "@nestjs/common": "^12.1.2",
     "@nestjs/core": "^12.1.2",
     "@nestjs/platform-fastify": "^12.1.2",
     "@nestjs/swagger": "^12.0.2",
+    "@nestjs/throttler": "^6.7.1",
+    "@node-rs/argon2": "^2.2.1",
     "@wayflow/shared": "workspace:*",
+    "csv-parse": "^7.0.3",
     "drizzle-orm": "^0.45.3",
+    "fastify": "^5.12.5",
     "iovalkey": "^0.4.0",
+    "jose": "^6.2.12",
     "pg": "^8.23.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^12.0.8",
     "@types/node": "^26.6.3",
     "@types/pg": "^8.23.1",
-    "drizzle-kit": "^0.31.11"
-  }
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "vitest": "^5.0.2"
+  },
+  "files": [
+    "dist",
+    "drizzle",
+    "assets"
+  ]
 }
